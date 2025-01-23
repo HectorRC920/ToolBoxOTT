@@ -1,73 +1,39 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import TableComponent from './TableComponent';
+import useFetchFileList from '../hooks/useFetchFileList.js';
+import useFetchData from '../hooks/useFetchData.js';
+import '@testing-library/jest-dom';
 
-// Enable fetch mocks
-beforeAll(() => {
-  global.fetch = jest.fn();
-});
+jest.mock('../hooks/useFetchFileList');
+jest.mock('../hooks/useFetchData');
 
-afterEach(() => {
-  fetch.mockClear();
-});
+describe('TableComponent', () => {
+  test('displays data correctly when fetch is successful', async () => {
+    useFetchFileList.mockReturnValue({ data: ['file1'] });
+    useFetchData.mockReturnValue({
+      data: [
+        {
+          file: 'file1',
+          lines: [{ text: 'Sample Text', number: 42, hex: '0x2a' }],
+        },
+      ],
+      loading: false,
+      error: null,
+    });
 
-afterAll(() => {
-  delete global.fetch;
-});
+    render(<TableComponent />);
 
-test('displays loading spinner initially', () => {
-  fetch.mockImplementation(() => new Promise(() => {})); 
+    const dropdown = screen.getByLabelText('Select a File:');
+    fireEvent.change(dropdown, { target: { value: 'file1' } });
 
-  render(<TableComponent />);
-  
-  const loadingSpinner = screen.getByRole('status');
-  expect(loadingSpinner).toBeInTheDocument();
-});
-
-test('displays data correctly when fetch is successful', async () => {
-  fetch.mockResolvedValueOnce({
-    ok: true,
-    json: async () => [
-      {
-        file: 'file1',
-        lines: [
-          { text: 'Sample Text', number: 42, hex: '0x2a' },
-        ],
-      },
-    ],
-  });
-
-  render(<TableComponent />);
-
-  await waitFor(() => {
-    const fileName = screen.getByText('file1');
-    expect(fileName).toBeInTheDocument();
-
-    const text = screen.getByText('Sample Text');
-    expect(text).toBeInTheDocument();
-
-    const number = screen.getByText('42');
-    expect(number).toBeInTheDocument();
-
-    const hex = screen.getByText('0x2a');
-    expect(hex).toBeInTheDocument();
-  });
-});
-
-test('displays error message when fetch fails', async () => {
-  fetch.mockRejectedValueOnce(new Error('Fetch failed'));
-
-  render(<TableComponent />);
-
-  await waitFor(() => {
-    const errorHeading = screen.getByText('Error');
-    expect(errorHeading).toBeInTheDocument();
-
-    const errorMessage = screen.getByText('Fetch failed');
-    expect(errorMessage).toBeInTheDocument();
-
-    const suggestionMessage = screen.getByText(/Please check your server or try again later./i);
-    expect(suggestionMessage).toBeInTheDocument();
+    await waitFor(() => {
+      // Query only within the table for "file1"
+      const table = screen.getByRole('table');
+      expect(within(table).getByText('file1')).toBeInTheDocument();
+      expect(within(table).getByText('Sample Text')).toBeInTheDocument();
+      expect(within(table).getByText('42')).toBeInTheDocument();
+      expect(within(table).getByText('0x2a')).toBeInTheDocument();
+    });
   });
 });

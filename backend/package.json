@@ -15,7 +15,8 @@
     "csv-parser": "^3.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "supertest": "^7.0.0"
+    "supertest": "^7.0.0",
+    "toolbox": "file:"
   },
   "devDependencies": {
     "chai": "^5.1.2",
