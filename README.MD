@@ -25,3 +25,12 @@ docker-compose up --build
 ## Usage
 
 Backend is set up to run on localhost port 3000
+
+## Troubleshooting
+If you have issues running app on Docker try
+```
+docker-compose down
+docker-compose rm -f
+docker system prune -f
+```
+Be careful if you have more containers into your machine these commands will delete them
