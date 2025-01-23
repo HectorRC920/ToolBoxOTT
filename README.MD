@@ -69,7 +69,13 @@ docker-compose down
 docker-compose build --no-cache
 docker-compose up
 ```
-
+also you can run the two projects as a dev environment
+```
+frontend root
+npm run dev
+backend root 
+npm run dev
+```
 ## Usage
 
 - Backend is set up to run on localhost port 3000 for development
