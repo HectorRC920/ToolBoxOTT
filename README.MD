@@ -69,6 +69,8 @@ docker-compose down
 docker-compose build --no-cache
 docker-compose up
 ```
+maybe you will need to run this commands one or two times if does not work
+go to troubleshooting section
 also you can run the two projects as a dev environment
 ```
 frontend root
