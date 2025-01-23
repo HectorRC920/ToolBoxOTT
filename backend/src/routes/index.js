@@ -1,11 +1,9 @@
-import express, { Application } from 'express';
-import filesRouter from './filesRouter';
+import express from 'express';
+import filesRouter from './filesRouter.js';
 
 export default class RouterAPI {
-  app: Application;
-  router: express.Router;
 
-  constructor(app: Application) {
+  constructor(app ) {
     this.app = app;
     this.router = express.Router();
     this.app.use('/api/v1', this.router);
