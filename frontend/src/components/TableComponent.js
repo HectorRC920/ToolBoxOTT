@@ -1,30 +1,23 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import useFetchFileList from "../hooks/useFetchFileList";
+import useFetchData from "../hooks/useFetchData";
 
 const TableComponent = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  
+  const [selectedFile, setSelectedFile] = useState("");
 
-  useEffect(() => {
-    fetch("http://localhost:3000/api/v1/files/data")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch data from the server. Please try again later.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setLoading(false);
-      });
-  }, []);
+  
+  const { data : fileList } = useFetchFileList();
 
-  if (loading) {
+  const { data, loading, error } = useFetchData(selectedFile);
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.value;
+    setSelectedFile(selectedFile);
+  }
+
+  if (loading ) {
     return (
       <div className="text-center mt-5">
         <div className="spinner-border text-primary" role="status">
@@ -34,21 +27,33 @@ const TableComponent = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="container mt-5">
+  return (
+    <div>
+      <div className="form-group">
+          <label htmlFor="fileSelect">Select a File:</label>
+          <select
+            id="fileSelect"
+            className="form-control"
+            value={selectedFile}
+            onChange={handleFileChange}
+          >
+            <option value="">-- Select a file --</option>
+            {fileList.map((file, index) => (
+              <option key={index} value={file}>
+                {file}
+              </option>
+            ))}
+          </select>
+      </div>
+    {error ? ( <div className="container mt-5">
         <div className="alert alert-danger" role="alert">
           <h4 className="alert-heading">Error</h4>
           <p>{error}</p>
           <hr />
           <p className="mb-0">Please check your server or try again later.</p>
         </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="container mt-4">
+    </div>) : (
+      <div className="container mt-4">
       <h1 className="text-center text-white bg-danger py-2">React Test App</h1>
       <table className="table table-striped table-bordered">
         <thead className="thead-dark">
@@ -83,6 +88,8 @@ const TableComponent = () => {
           ))}
         </tbody>
       </table>
+    </div>
+    )}
     </div>
   );
 };

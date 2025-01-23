@@ -11,7 +11,10 @@ export default class FilesController {
 
       if (fileName && typeof fileName === 'string') {
         const result = await processFileService.processCSVFileRegex(fileName);
-        return res.status(200).json({ result });
+        if(Object.keys(result).length === 0) {
+          return res.status(404).send('No data available');
+        }
+        return res.status(200).json([ result ]);
       }
       const axiosRequestObj  = {
         url : 'https://echo-serv.tbxnet.com/v1/secret/files',
