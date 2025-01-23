@@ -12,7 +12,6 @@ Use the package manager [npm-node](https://nodejs.org/en/download) to install th
 ```bash
 cd backend
 npm install
-npm run build
 cd ..
 cd frontend
 npm install
@@ -35,8 +34,8 @@ Backend is set up to run on localhost port 3000
 ## Troubleshooting
 If you have issues running app on Docker try
 ```
-docker-compose down
-docker-compose rm -f
-docker system prune -f
+docker-compose down                                                                                                  
+docker-compose build --no-cache
+docker-compose up
 ```
 Be careful if you have more containers into your machine these commands will delete them
