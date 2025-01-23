@@ -24,7 +24,8 @@ npm run dev
 ```
 if you want to run into docker container (not dev available yet)
 ```bash
-docker-compose up --build
+from the root of the project
+docker-compose build --no-cache
 ```
 
 ## Usage
