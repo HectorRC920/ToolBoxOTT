@@ -65,7 +65,9 @@ npm run dev
 if you want to run into docker container (not dev available yet)
 ```bash
 from the root of the project
+docker-compose down       
 docker-compose build --no-cache
+docker-compose up
 ```
 
 ## Usage
@@ -77,10 +79,11 @@ docker-compose build --no-cache
 ## Troubleshooting
 If you have issues running app on Docker try
 ```
-docker-compose down                                                                                                  
-docker-compose build --no-cache
-docker-compose up
+docker-compose down                                                                          docker-compose rm -f
+docker system prune -f
 ```
+
+Be careful if you have more containers into your machine these commands will delete them
 ## Testing
 If you want to run tests of project just go to backend or frontend and run
 ```
