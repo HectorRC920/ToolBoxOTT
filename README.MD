@@ -10,11 +10,17 @@
 Use the package manager [npm-node](https://nodejs.org/en/download) to install this project.
 
 ```bash
+cd backend
+npm install
+npm run build
+cd ..
+cd frontend
 npm install
 npm run build
 ```
 if you want to develop new features
 ```bash
+on frontend or backend
 npm run dev
 ```
 if you want to run into docker container (not dev available yet)
