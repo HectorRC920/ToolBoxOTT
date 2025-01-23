@@ -7,16 +7,21 @@
     "dev": "nodemon src/index.js",
     "start": "node dist/index.js",
     "lint": "standard src/**/*.js",
-    "lint:fix": "standard --fix src/**/*.js"
+    "lint:fix": "standard --fix src/**/*.js",
+    "test": "mocha"
   },
   "dependencies": {
     "axios": "^1.7.9",
     "csv-parser": "^3.1.0",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "supertest": "^7.0.0"
   },
   "devDependencies": {
+    "chai": "^5.1.2",
+    "mocha": "^11.1.0",
     "nodemon": "^3.1.9",
+    "sinon": "^19.0.2",
     "standard": "^17.1.2"
   },
   "standard": {
