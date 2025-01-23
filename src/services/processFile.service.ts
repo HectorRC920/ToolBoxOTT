@@ -1,5 +1,7 @@
 import { AxiosError, AxiosRequestConfig } from "axios";
 import { AxiosWrapper } from "../wrapper/axios.wrapper";
+import csvParser from "csv-parser";
+import { Readable } from "stream";
 
 export default class ProcessFileService {
   private axios: AxiosWrapper;
@@ -19,18 +21,33 @@ export default class ProcessFileService {
   }
 
   async processCVSFile(file: string): Promise<any> {
-    console.log(`Processing file ${file}`);
 
+    const validLines: any[] = [];
     const axiosRequestObj: AxiosRequestConfig = {
       url: `https://echo-serv.tbxnet.com/v1/secret/file/${file}`,
-      method: 'GET'
+      method: 'GET',
+      responseType: 'text' 
     };
 
 
     try {
       const response = await this.axios.invokeApi(axiosRequestObj);
+      const stream = Readable.from(response);
 
-      //TODO: Parse the CSV stream
+      const parser = stream.pipe(csvParser());
+
+      for await (const row of parser) {
+        const { text, number, hex } = row;
+
+        if (text && number && hex) {
+          validLines.push({ text, number, hex });
+        }
+      }
+
+      return {
+        file,
+        lines: validLines,
+      };
 
     } catch (error : AxiosError | any) {
       if (error.isAxiosError) {

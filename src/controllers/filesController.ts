@@ -3,7 +3,6 @@ import {AxiosWrapper } from '../wrapper/axios.wrapper';
 import { AxiosError, AxiosRequestConfig } from 'axios';
 import ProcessFileService from '../services/processFile.service';
 
-
 const axios = AxiosWrapper.getInstance();
 const processFileService = ProcessFileService.getInstance();
 export default class FilesController {
@@ -14,16 +13,16 @@ export default class FilesController {
         method : 'GET'
       }
       const response = await axios.invokeApi(axiosRequestObj);
-      console.log(response);
+
       const files: string[] = response.files;
       let result = [];
       for (const file of files) {
-        console.log(file);
-        // result.push(processFileService.processCVSFile(file)); 
+        result.push(await processFileService.processCVSFile(file)); 
       }
-     
-
-      res.status(200).json({ files }); 
+      
+      const filteredResult = result.filter(item => Object.keys(item).length > 0);
+      
+      res.status(200).json({result : filteredResult }); 
     } catch (err) {
       console.error(err);
       res.status(500).send('Something went wrong!');
