@@ -35,8 +35,9 @@ module.exports = {
         static: {
             directory: path.join(__dirname, 'public', ),
         },
+        hot: true, 
         open: true,
-        port: 3000,
+        port: 3001,
     },
     resolve: {
         extensions: ['.js', '.jsx'],
