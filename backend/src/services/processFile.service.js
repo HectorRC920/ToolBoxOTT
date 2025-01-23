@@ -71,7 +71,7 @@ export default class ProcessFileService {
         // Push the structured data into the validLines array
         validLines.push({
           text,
-          number: parseInt(number, 10),
+          number,
           hex,
         });
       }
