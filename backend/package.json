@@ -2,7 +2,9 @@
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "lint": "standard src/**/*.ts",
+    "lint:fix": "standard --fix src/**/*.ts"
   },
   "dependencies": {
     "axios": "^1.7.9",
@@ -13,7 +15,18 @@
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.7",
+    "standard": "^17.1.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.3"
+  },
+  "standard": {
+    "env": {
+      "node": true,
+      "mocha": true
+    },
+    "ignore": [
+      "/dist",
+      "/node_modules"
+    ]
   }
 }
