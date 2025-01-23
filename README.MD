@@ -45,7 +45,7 @@
 - src: source code of the project (components, assets, api wrappers, etc)
 - components: components of the app
 
-## Installatioan
+## Installation
 
 Use the package manager [npm-node](https://nodejs.org/en/download) to install this project.
 
