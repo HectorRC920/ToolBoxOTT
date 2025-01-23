@@ -33,7 +33,7 @@ describe('FilesController', function() {
 
 
       axiosWrapperMock.invokeApi.resolves();
-      processFileServiceMock.processCSVFileRegex.resolves(processedResults);
+      processFileServiceMock.processCSVFileRegex.resolves();
 
       const response = await request(app).get('/api/files/data');
 

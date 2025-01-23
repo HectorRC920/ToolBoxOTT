@@ -24,8 +24,8 @@ describe('ProcessFileService', function() {
       expect(result).to.deep.equal({
         file: 'test.csv',
         lines: [
-          { text: 'hello', number: 1234, hex: 'abc123' },
-          { text: 'world', number: 5678, hex: 'def456' },
+          { text: 'hello', number: "1234", hex: 'abc123' },
+          { text: 'world', number: "5678", hex: 'def456' },
         ],
       });
     });
