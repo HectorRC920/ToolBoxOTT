@@ -79,7 +79,8 @@ docker-compose up
 ## Troubleshooting
 If you have issues running app on Docker try
 ```
-docker-compose down                                                                          docker-compose rm -f
+docker-compose down
+docker-compose rm -f
 docker system prune -f
 ```
 
